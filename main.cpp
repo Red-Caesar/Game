@@ -9,9 +9,10 @@ class Player{
 private:
     float dx;
     float dy;
-    float speed;
-    Sprite player_sprite;
+    float speed_down;
+
 public:
+    Sprite player_sprite;
     Player(Texture &player_texture){
         player_sprite.setTexture(player_texture);
         player_sprite.setTextureRect(IntRect(20,66,160,190));
@@ -29,32 +30,38 @@ public:
 
 int main() {
 
-
+    Texture player_texture;
+    Player girl(player_texture);
+    player_texture.loadFromFile("..\\images/character_femaleAdventurer_cheer0.png");
 
     while (window.isOpen())
     {
+
         Event event;
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
                 window.close();
-        }
-        Texture player_texture;
-        player_texture.loadFromFile("..\\images/character_femaleAdventurer_cheer0.png");
-//        Sprite player_sprite;
-//        player_sprite.setTexture(player_texture);
-//        player_sprite.setTextureRect(IntRect(20,66,160,190));
-//        float dx = WINDOW_WIDTH/2;
-//        float dy = WINDOW_HEIGHT;
-//        player_sprite.setPosition(dx,dy);
+            if (Keyboard::isKeyPressed(Keyboard::Left)){
+                girl.player_sprite.move(-50, 0);
+            } //первая координата Х отрицательна =>идём влево
+            if (Keyboard::isKeyPressed(Keyboard::Right)){
+                girl.player_sprite.move(50, 0);
+            } //первая координата Х положительна =>идём вправо
+            if (Keyboard::isKeyPressed(Keyboard::Up)){
+                girl.player_sprite.move(0, -50);
+            } //вторая координата (У) отрицательна =>идём вверх (вспоминаем из предыдущих уроков почему именно вверх, а не вниз)
+            if (Keyboard::isKeyPressed(Keyboard::Down)){
+                girl.player_sprite.move(0, 50);
 
+            }
+            girl.player_sprite.setTextureRect(IntRect(20,66,160,190));
+        }
 
 
         window.clear();
-        Player girl(player_texture);
-//        window.draw(girl.get_sprite());
+
         girl.draw_player();
-//        window.draw(player_sprite);
         window.display();
     }
     return 0;
